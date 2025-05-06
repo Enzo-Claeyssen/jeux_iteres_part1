@@ -14,3 +14,4 @@ Jour 2 :
 
 - Généralisation des méthodes test-q-learning et test-dqn en prévision de l'entraînement sur labyrinthe
 - Séparation des problèmes par fiche
+- Rédaction de base.ipynb pour une présentation sommaire
