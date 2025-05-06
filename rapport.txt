@@ -15,3 +15,6 @@ Jour 2 :
 - Généralisation des méthodes test-q-learning et test-dqn en prévision de l'entraînement sur labyrinthe
 - Séparation des problèmes par fiche
 - Rédaction de base.ipynb pour une présentation sommaire
+- Changement de l'unité d'itération de QLearning. (On passe de Épisode à TimeSteps pour avoir la même unité que DQN)
+- Optimisation des paramètres du QLearning pour couloir de longueur quelconque
+
