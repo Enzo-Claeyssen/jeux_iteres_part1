@@ -12,7 +12,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9, epsilon = 0.1, timesteps = 2
     episode_reward = 0
     done = False
     
-    while timesteps > 0 or not done :	# Continue until reached amount of timesteps and episode ended
+    while timesteps > 0 :	# Continue until reached amount of timesteps
         if done :	# If episode ended
             if useProdForReward :
                 episode_reward = test_q_learning(env, Q, render = False)   #Uses prod model to report rewards
@@ -40,7 +40,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9, epsilon = 0.1, timesteps = 2
     return Q, rewards
 
 
-def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
+def test_q_learning(env, QTable, maxTimesteps = 100, render = True) :
     preventInfinite = maxTimesteps
     done = False
     state = env.reset()
