@@ -1,0 +1,16 @@
+Jour 1 :
+
+- Prise de connaissance des sujets
+- Reprise du code fourni
+- Première comparaison Q-Learning / DQN selon taille du couloir
+- Tentative RLlib (ratée on reste sur StableBaselines3)
+- Compréhension environnement Gym
+- Création de l'environnement frozenLake basé sur Gym
+- Généralisation Q-Learning pour tout problème Gym
+
+
+
+Jour 2 :
+
+- Généralisation des méthodes test-q-learning et test-dqn en prévision de l'entraînement sur labyrinthe
+- Séparation des problèmes par fiche
