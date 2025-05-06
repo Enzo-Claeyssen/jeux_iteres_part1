@@ -2,7 +2,7 @@ import numpy as np
 from math import exp
 
 
-def train_q_learning(env, alpha = 0.1, gamma = 0.9, epsilon = 0.1, timesteps = 2000) :
+def train_q_learning(env, alpha = 0.1, gamma = 0.9, epsilon = 0.1, timesteps = 2000, useProdForReward = False) :
     n_states = env.observation_space.n
     n_actions = env.action_space.n
     Q = np.zeros((n_states, n_actions))
@@ -14,7 +14,8 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9, epsilon = 0.1, timesteps = 2
     
     while timesteps > 0 or not done :	# Continue until reached amount of timesteps and episode ended
         if done :	# If episode ended
-            # episode_reward = test_q_learning(env, Q, render = False)   Uncomment to use prod model to report rewards
+            if useProdForReward :
+                episode_reward = test_q_learning(env, Q, render = False)   #Uses prod model to report rewards
             rewards.append(episode_reward)
             state = env.reset()
             episode_reward = 0
