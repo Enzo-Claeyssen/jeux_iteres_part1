@@ -43,8 +43,8 @@ def train_dqn(env, lr = 0.01, buffer_size = 500,
     return model, logger.episode_rewards
 
 # === TEST DU MODÈLE ===
-def test_dqn(env, model, maxTimestamps = 20):
-    preventInfinite = maxTimestamps
+def test_dqn(env, model, maxTimesteps = 20):
+    preventInfinite = maxTimesteps
     env = make_vec_env(lambda: env, n_envs=1)
     obs = env.reset()
     trajectory = [obs]
