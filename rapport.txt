@@ -18,3 +18,11 @@ Jour 2 :
 - Changement de l'unité d'itération de QLearning. (On passe de Épisode à TimeSteps pour avoir la même unité que DQN)
 - Ajout de la possibilité d'obtenir les récompenses hors entraînement pour QLearning
 - Optimisation des paramètres du QLearning pour problème du couloir
+
+
+
+Jour 3 :
+
+- Ajout logging des récompenses hors entraînement pour QLearning et DQN
+- Retour sur optimisation du QLearning
+- Optimisation de DQN

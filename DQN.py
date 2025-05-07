@@ -24,7 +24,7 @@ class RewardLogger(BaseCallback):
         return True
 
 # === ENTRAÎNEMENT DQN ===
-def train_dqn(env, lr = 0.01, gamma = 0.99, buffer_size = 500, update_freq = 10,
+def train_dqn(env, lr = 0.01, gamma = 0.99, buffer_size = 500, update_freq = 500,
               exploration_initial_eps = 1, exploration_fraction = 0.3, exploration_final_eps = 0.05, 
               timesteps = 2000, useProdForReward = False):
     
