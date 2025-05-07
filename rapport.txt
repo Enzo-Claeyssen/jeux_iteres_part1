@@ -26,3 +26,5 @@ Jour 3 :
 - Ajout logging des récompenses hors entraînement pour QLearning et DQN
 - Retour sur optimisation du QLearning
 - Optimisation de DQN
+- Comparaison QLearning DQN par timesteps
+- Comparaison QLearning DQN par temps
