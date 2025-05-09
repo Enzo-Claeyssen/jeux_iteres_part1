@@ -1,0 +1,128 @@
+import matplotlib.pyplot as plt
+from QLearningTrainingBuilder import QLearningTrainingBuilder
+
+
+def construct_all_possibilities(param1_poss) :
+    n = len(param1_poss)
+    
+    if n <= 0 :
+        raise NeedAtLeastOnePossibilityException
+    else :
+        data = []
+        for x in range(n) :
+            data.append(param1_poss[x], x)
+        return data
+
+
+def construct_all_possibilities(param1_poss, param2_poss) :
+    n = len(param1_poss)
+    m = len(param2_poss)
+    
+    if n <= 0 || m <= 0 :
+        raise NeedAtLeastOnePossibilityException
+    else :
+        data = []
+        for y in range(n) :
+            for x in range(m) :
+                data.append(param1_poss[y], param2_poss[x], x, y)
+        return data
+
+
+def construct_all_possibilities(param1_poss, param2_poss, param3_poss) :
+    n = len(param1_poss)
+    m = len(param2_poss)
+    k = len(param3_poss)
+    
+    if min(n, m, k) <= 0 :
+        raise NeedAtLeastOnePossibilityException
+    else :
+        data = []
+        if k > 0 :
+            for z in range(k) :
+                for y in range(n) :
+                    for x in range(m) :
+                        data.append(param1_poss[z], param2_poss[y], param3_poss[x], x, y, z)
+        return data
+
+
+
+
+
+def plot_q_learning_performance_forAll(savePath, env, timesteps, plotDim, predefined, param1_id, param1_poss) :
+    data = construct_all_possibilities(param1_poss)
+    n = len(param1_poss)
+    
+    fig, axes = plt.subplots(n, figsize=(15, 15))
+    
+    for param1, x in data :
+        trainer = QLearningTrainingBuilder()
+        trainer.set_parameters(predefined + [(param1_id, param1)])
+        
+        QTable, QrewardsTrain, QrewardsProd = trainer.train(env, timesteps)
+        
+        axes[x].plot(QrewardsTrain, label = 'Entraînement')
+        axes[x].plot(QrewardsProd, label = 'Hors Entraînemnt')
+        axes[x].legend()
+        axes[x].set_xlabel("Épisode")
+        axes[x].set_ylabel("Récompense")
+        axes[x].set_title(f"Récompense par épisode pour {param1_id} = {param1}")
+        axes[x].grid()
+        axes[x].set_xlim([0, plotDim[0]])
+        axes[x].set_ylim([plotDim[1], plotDim[2]])
+    plt.savefig(savePath, bbox_inches='tight')
+    plt.show()
+
+
+
+def plot_q_learning_performance_forAll(savePath, env, timesteps, plotDim, predefined, param1_id, param1_poss, param2_id, param2_poss) :
+    data = construct_all_possibilities(param1_poss, param2_poss)
+    n = len(param1_poss)
+    m = len(param2_poss)
+    
+    fig, axes = plt.subplots(n, figsize=(15, 15))
+    
+    for param1, param2, x, y in data :
+        trainer = QLearningTrainingBuilder()
+        trainer.set_parameters(predefined + [(param1_id, param1), (param2_id, param2)])
+        
+        QTable, QrewardsTrain, QrewardsProd = trainer.train(env, timesteps)
+        
+        axes[x, y].plot(QrewardsTrain, label = 'Entraînement')
+        axes[x, y].plot(QrewardsProd, label = 'Hors Entraînemnt')
+        axes[x, y].legend()
+        axes[x, y].set_xlabel("Épisode")
+        axes[x, y].set_ylabel("Récompense")
+        axes[x, y].set_title(f"Récompense par épisode pour {param1_id} = {param1} et {param2_id} = {param2}")
+        axes[x, y].grid()
+        axes[x, y].set_xlim([0, plotDim[0]])
+        axes[x, y].set_ylim([plotDim[1], plotDim[2]])
+    plt.savefig(savePath, bbox_inches='tight')
+    plt.show()
+
+
+def plot_q_learning_performance_forAll(savePath, env, timesteps, plotDim, predefined, param1_id, param1_poss, param2_id, param2_poss, param3_id, param3_poss) :
+    data = construct_all_possibilities(param1_poss, param2_poss)
+    n = len(param1_poss)
+    m = len(param2_poss)
+    k = len(param3_poss)
+    
+    fig, axes = plt.subplots(n, figsize=(15, 15))
+    
+    for param1, param2, param3, x, y, z in data :
+        trainer = QLearningTrainingBuilder()
+        trainer.set_parameters(predefined + [(param1_id, param1), (param2_id, param2), (param3_id, param3)])
+        
+        QTable, QrewardsTrain, QrewardsProd = trainer.train(env, timesteps)
+        
+        axes[x, y].plot(QrewardsTrain, label = 'Entraînement')
+        axes[x, y].plot(QrewardsProd, label = 'Hors Entraînemnt')
+        axes[x, y].legend()
+        axes[x, y].set_xlabel("Épisode")
+        axes[x, y].set_ylabel("Récompense")
+        axes[x, y].set_title(f"Récompense par épisode pour {param1_id} = {param1} et {param2_id} = {param2} et {param3_id} = {param3}")
+        axes[x, y].grid()
+        axes[x, y].set_xlim([0, plotDim[0]])
+        axes[x, y].set_ylim([plotDim[1], plotDim[2]])
+    plt.savefig(savePath, bbox_inches='tight')
+    plt.show()
+
