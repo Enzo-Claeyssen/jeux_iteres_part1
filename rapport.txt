@@ -1,3 +1,5 @@
+Semaine 1 : 5/05 -> 11/05
+
 Jour 1 :
 
 - Prise de connaissance des sujets
@@ -28,3 +30,15 @@ Jour 3 :
 - Optimisation de DQN
 - Comparaison QLearning DQN par timesteps
 - Comparaison QLearning DQN par temps
+
+
+Jour 4 :
+
+- Ajout PPO par défaut sur couloir
+
+
+
+Jour 5 :
+
+- Helper pour plot QLearning
+- Optimisation QLearning pour labyrinthe
