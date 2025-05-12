@@ -42,3 +42,14 @@ Jour 5 :
 
 - Helper pour plot QLearning
 - Optimisation QLearning pour labyrinthe
+- Helper pour plot DQN
+
+
+
+
+Semaine 2 : 12/05 -> 18/05
+
+
+Jour 1 :
+ - Optimisation DQN pour labyrinthe taille 6 max
+ - Comparaison DQN / QLearning
