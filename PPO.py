@@ -24,7 +24,7 @@ class RewardLoggerPPO(BaseCallback):
 
 # === ENTRAÎNEMENT PPO ===
 def train_ppo(env,
-              timesteps = 2000, useProdForReward = False):
+              timesteps = 2000, useProdForReward = False, lr = 0.00003, gamma = 0.99, clip_range = 0.2, batch_size = 64):
     
     logger = RewardLoggerPPO(env, useProdForReward = useProdForReward)
     env = make_vec_env(lambda: env, n_envs=1)
@@ -32,7 +32,11 @@ def train_ppo(env,
     model = PPO(
         "MlpPolicy",
         env,
-        verbose = 0
+        verbose = 0,
+        learning_rate = lr,
+        gamma = gamma,
+        clip_range = clip_range,
+        batch_size = batch_size
     )
 
     model.learn(total_timesteps=timesteps, callback=logger)
@@ -59,7 +63,7 @@ def test_ppo(env, model, maxTimesteps = 20, render = True):
             trajectory.append(obs)
         
         if render :
-            env.render("human")
+            env.render()
         
         if done:
             break
