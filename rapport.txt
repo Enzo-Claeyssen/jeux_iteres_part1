@@ -53,3 +53,7 @@ Semaine 2 : 12/05 -> 18/05
 Jour 1 :
  - Optimisation DQN pour labyrinthe taille 6 max
  - Comparaison DQN / QLearning
+ 
+ 
+Jour 2 :
+ - Explication des environnements dans base.ipynb
