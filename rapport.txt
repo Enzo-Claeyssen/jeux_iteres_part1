@@ -57,3 +57,4 @@ Jour 1 :
  
 Jour 2 :
  - Explication des environnements dans base.ipynb
+ - Optimisation DQN labyrinthe taille 8 + nouvelle conclusion
