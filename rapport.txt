@@ -65,3 +65,4 @@ Jour 3 :
  - Explication des algorithmes et de leurs paramètres
  - Explication Stable Baselines
  - Ajout paramètre, changer l'architecture du réseau de DQN
+ - Retour sur QLearning Couloir (améliorer les explications et utiliser l'implémentation de helperPlot.py)
