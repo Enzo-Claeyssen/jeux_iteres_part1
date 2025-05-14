@@ -6,7 +6,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 
 # === CALLBACK POUR LOGGER LES RÉCOMPENSES ===
 class RewardLogger(BaseCallback):
-    def __init__(self, env, verbose=0, useProdForReward = False):
+    def __init__(self, env, verbose=0, useProdForReward = False, maxTimestepsProd = 100):
         super().__init__(verbose)
         self.env = env
         self.train_episode_rewards = []
@@ -18,24 +18,28 @@ class RewardLogger(BaseCallback):
         self.current_rewards += self.locals["rewards"][0]
         if self.locals["dones"][0]:
             if self.useProdForReward :
-                self.prod_episode_rewards.append(test_dqn(self.env, self.locals['self'], maxTimesteps = 100, render = False))
+                self.prod_episode_rewards.append(test_dqn(self.env, self.locals['self'], maxTimesteps = maxTimestepsProd, render = False))
             self.train_episode_rewards.append(self.current_rewards)
             self.current_rewards = 0
         return True
 
 # === ENTRAÎNEMENT DQN ===
-def train_dqn(env, lr = 0.01, gamma = 0.99, buffer_size = 500, batch_size = 32, update_freq = 500,
+def train_dqn(env, learning_rate = 0.01, gamma = 0.99, buffer_size = 500, batch_size = 32, update_freq = 500, net_arch = [64, 64],
               exploration_initial_eps = 1, exploration_fraction = 0.3, exploration_final_eps = 0.05,
-              timesteps = 2000, useProdForReward = False):
+              timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100):
     
-    logger = RewardLogger(env, useProdForReward = useProdForReward)
+    logger = RewardLogger(env, useProdForReward = useProdForReward, maxTimestepsProd = maxTimestepsprod)
     env = make_vec_env(lambda: env, n_envs=1)
+
+    policy_kwargs = dict(activation_fn=th.nn.ReLU,
+                     net_arch=net_arch)
 
     model = DQN(
         "MlpPolicy",
         env,
         verbose=0,
-        learning_rate=lr,
+        policy_kwargs = policy_kwargs,
+        learning_rate=learning_rate,
         gamma = gamma,
         buffer_size=buffer_size,
         batch_size = batch_size,

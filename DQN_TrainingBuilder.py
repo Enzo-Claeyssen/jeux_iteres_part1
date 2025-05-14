@@ -3,7 +3,7 @@ from DQN import *
 
 class DQN_TrainingBuilder() :
     def __init__(self) :
-        self.lr = 0.01
+        self.learning_rate = 0.01
         self.gamma = 0.99
         self.buffer_size = 500
         self.batch_size = 32
@@ -15,8 +15,8 @@ class DQN_TrainingBuilder() :
     
     def set_parameters(self, params) :
         for key, value in params :
-            if key.lower() == 'lr' :
-                self.lr = value
+            if key.lower() == 'learning_rate' :
+                self.learning_rate = value
             elif key.lower() == 'gamma' :
                 self.gamma = value
             elif key.lower() == 'buffer_size' :
@@ -36,7 +36,7 @@ class DQN_TrainingBuilder() :
     
     def train(self, env, timesteps) :
         return train_dqn(env, timesteps = timesteps, useProdForReward = True,
-                         lr = self.lr,
+                         learning_rate = self.learning_rate,
                          gamma = self.gamma,
                          buffer_size = self.buffer_size,
                          batch_size = self.batch_size,

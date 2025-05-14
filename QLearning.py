@@ -4,7 +4,7 @@ from math import exp
 
 def train_q_learning(env, alpha = 0.1, gamma = 0.9,
                      eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
-                     timesteps = 2000, useProdForReward = False) :
+                     timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100) :
     n_states = env.observation_space.n
     n_actions = env.action_space.n
     Q = np.zeros((n_states, n_actions))
@@ -18,7 +18,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
     for i in range(timesteps) :	# Continue until reached amount of timesteps
         if done :	# If episode ended
             if useProdForReward :
-                prodRewards.append(test_q_learning(env, Q, render = False))   #Uses prod model to report rewards
+                prodRewards.append(test_q_learning(env, Q, render = False, maxTimesteps = maxTimestepsProd))   #Uses prod model to report rewards
             trainRewards.append(episode_reward)
             state = env.reset()
             episode_reward = 0
@@ -45,7 +45,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
     return Q, trainRewards, prodRewards
 
 
-def test_q_learning(env, QTable, maxTimesteps = 100, render = True) :
+def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
     preventInfinite = maxTimesteps
     done = False
     state = env.reset()
