@@ -1,6 +1,7 @@
 from stable_baselines3 import DQN
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.callbacks import BaseCallback
+import torch as th
 
 
 
@@ -13,12 +14,13 @@ class RewardLogger(BaseCallback):
         self.prod_episode_rewards = []
         self.current_rewards = 0
         self.useProdForReward = useProdForReward
+        self.maxTimestepsProd=  maxTimestepsProd
 
     def _on_step(self):
         self.current_rewards += self.locals["rewards"][0]
         if self.locals["dones"][0]:
             if self.useProdForReward :
-                self.prod_episode_rewards.append(test_dqn(self.env, self.locals['self'], maxTimesteps = maxTimestepsProd, render = False))
+                self.prod_episode_rewards.append(test_dqn(self.env, self.locals['self'], maxTimesteps = self.maxTimestepsProd, render = False))
             self.train_episode_rewards.append(self.current_rewards)
             self.current_rewards = 0
         return True
@@ -28,7 +30,7 @@ def train_dqn(env, learning_rate = 0.01, gamma = 0.99, buffer_size = 500, batch_
               exploration_initial_eps = 1, exploration_fraction = 0.3, exploration_final_eps = 0.05,
               timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100):
     
-    logger = RewardLogger(env, useProdForReward = useProdForReward, maxTimestepsProd = maxTimestepsprod)
+    logger = RewardLogger(env, useProdForReward = useProdForReward, maxTimestepsProd = maxTimestepsProd)
     env = make_vec_env(lambda: env, n_envs=1)
 
     policy_kwargs = dict(activation_fn=th.nn.ReLU,

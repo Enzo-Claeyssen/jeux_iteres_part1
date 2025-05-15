@@ -66,3 +66,9 @@ Jour 3 :
  - Explication Stable Baselines
  - Ajout paramètre, changer l'architecture du réseau de DQN
  - Retour sur QLearning Couloir (améliorer les explications et utiliser l'implémentation de helperPlot.py)
+ 
+ 
+Jour 4 :
+ - Correction de quelques soucis liés à l'ajout du nouveau paramètre
+ - Nouvelle optimisation de DQN pour couloir
+ - Nouvelle comparaison DQN / QLearning pour couloir
