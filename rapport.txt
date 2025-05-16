@@ -72,3 +72,7 @@ Jour 4 :
  - Correction de quelques soucis liés à l'ajout du nouveau paramètre
  - Nouvelle optimisation de DQN pour couloir
  - Nouvelle comparaison DQN / QLearning pour couloir
+ 
+
+Jour 5 :
+ - Quelques corrections pour couloir.ipynb
