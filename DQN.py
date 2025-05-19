@@ -49,7 +49,7 @@ def train_dqn(env, learning_rate = 0.01, gamma = 0.99, buffer_size = 500, batch_
         target_update_interval=update_freq,
         exploration_initial_eps = exploration_initial_eps,
         exploration_fraction=exploration_fraction,
-        exploration_final_eps=exploration_final_eps,
+        exploration_final_eps=exploration_final_eps
     )
 
     model.learn(total_timesteps=timesteps, callback=logger)

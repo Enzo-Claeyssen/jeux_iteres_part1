@@ -2,7 +2,7 @@ import numpy as np
 from math import exp
 
 
-def train_q_learning(env, alpha = 0.1, gamma = 0.9,
+def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
                      eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
                      timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100) :
     n_states = env.observation_space.n
@@ -11,7 +11,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
     trainRewards = []
     prodRewards = []
     
-    state = env.reset()
+    state, _ = env.reset()
     episode_reward = 0
     done = False
     
@@ -20,13 +20,16 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
             if useProdForReward :
                 prodRewards.append(test_q_learning(env, Q, render = False, maxTimesteps = maxTimestepsProd))   #Uses prod model to report rewards
             trainRewards.append(episode_reward)
-            state = env.reset()
+            state, _ = env.reset()
             episode_reward = 0
             done = False
             
         
         # Décroissance de epsilon
         epsilon = get_new_epsilon(eps_start, eps_end, eps_fraction, (1-i/timesteps))
+        
+        # Décroissance de alpha
+        alpha = alpha * exp(-decay_rate * i)
         
         # Choix de l'action
         if np.random.rand() < epsilon :
@@ -35,7 +38,7 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
             action = np.argmax(Q[state])
             
         # On applique l'action choisie
-        next_state, reward, done, _ = env.step(action)
+        next_state, reward, done, _, _ = env.step(action)
             
         # Mise à jour de la table
         Q[state, action] += alpha * (reward + gamma * np.max(Q[next_state]) - Q[state, action])
@@ -48,13 +51,13 @@ def train_q_learning(env, alpha = 0.1, gamma = 0.9,
 def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
     preventInfinite = maxTimesteps
     done = False
-    state = env.reset()
+    state, _ = env.reset()
     if render : env.render()
     total_reward = 0
     while not done and preventInfinite > 0 :
         preventInfinite -= 1
         action = np.argmax(QTable[state])
-        state, reward, done, _ = env.step(action)
+        state, reward, done, _, _ = env.step(action)
         if render : env.render()
         total_reward += reward
     return total_reward
@@ -71,3 +74,4 @@ def get_new_epsilon(start, end, fraction, progress_remaining) :
         return end
     else :
         return start + (1 - progress_remaining) * (end - start) / fraction
+
