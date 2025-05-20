@@ -28,13 +28,17 @@ class RewardLogger(BaseCallback):
 # === ENTRAÎNEMENT DQN ===
 def train_dqn(env, learning_rate = 0.01, gamma = 0.99, buffer_size = 500, batch_size = 32, update_freq = 500, net_arch = [64, 64],
               exploration_initial_eps = 1, exploration_fraction = 0.3, exploration_final_eps = 0.05,
-              timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100):
+              timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100, use_ReLU = True):
     
     logger = RewardLogger(env, useProdForReward = useProdForReward, maxTimestepsProd = maxTimestepsProd)
     env = make_vec_env(lambda: env, n_envs=1)
 
-    policy_kwargs = dict(activation_fn=th.nn.ReLU,
-                     net_arch=net_arch)
+    if use_ReLU :
+        policy_kwargs = dict(activation_fn=th.nn.ReLU,
+                             net_arch=net_arch)
+    else :
+        policy_kwargs = dict(activation_fn = th.nn.Sigmoid,
+                             net_arch=net_arch)
 
     model = DQN(
         "MlpPolicy",

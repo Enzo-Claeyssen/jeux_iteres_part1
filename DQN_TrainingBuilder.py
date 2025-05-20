@@ -12,6 +12,7 @@ class DQN_TrainingBuilder() :
         self.exploration_fraction = 0.3
         self.exploration_final_eps = 0.05
         self.net_arch = [64, 64]
+        self.use_ReLU = True
         
     
     def set_parameters(self, params) :
@@ -34,6 +35,8 @@ class DQN_TrainingBuilder() :
                 self.exploration_final_eps = value
             elif key.lower() == 'net_arch' :
                 self.net_arch = value
+            elif key.lower() == 'use_relu' :
+                self.use_ReLU = value
             else :
                 raise UnknownParameterException
     
@@ -47,4 +50,6 @@ class DQN_TrainingBuilder() :
                          net_arch = self.net_arch,
                          exploration_initial_eps = self.exploration_initial_eps,
                          exploration_fraction = self.exploration_fraction,
-                         exploration_final_eps = self.exploration_final_eps)
+                         exploration_final_eps = self.exploration_final_eps,
+                         use_ReLU = self.use_ReLU
+                         )
