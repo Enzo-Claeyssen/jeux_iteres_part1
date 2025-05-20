@@ -76,3 +76,21 @@ Jour 4 :
 
 Jour 5 :
  - Quelques corrections pour couloir.ipynb
+ 
+ 
+ 
+
+Semaine 3 : 19/05 -> 25/05
+
+
+
+Jour 1 :
+ - Passage vers gymnasium
+ - Entraînement DQN pour labyrinthe 6
+ 
+ 
+Jour 2 :
+- Récupération QTable et poids + biais d'un réseau
+- Entraînement DQN labyrinthe 8
+- ReLU vs Sigmoid
+- Environnement pour livraison terminé
