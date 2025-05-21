@@ -94,3 +94,10 @@ Jour 2 :
 - Entraînement DQN labyrinthe 8
 - ReLU vs Sigmoid
 - Environnement pour livraison terminé
+
+
+
+Jour 3 :
+- Entraînement QLearning pour livraison tailles 4 -> 10
+- Explications pour environnement livraison
+- Correction entraînement DQN pour labyrinthe
