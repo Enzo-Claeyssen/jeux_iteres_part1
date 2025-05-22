@@ -101,3 +101,10 @@ Jour 3 :
 - Entraînement QLearning pour livraison tailles 4 -> 10
 - Explications pour environnement livraison
 - Correction entraînement DQN pour labyrinthe Tailles 4 -> 10
+
+
+Jour 4 :
+- Comparaison QLearning DQN pour labyrinthe
+- Comparaison ancien labyrinthe et nouveau labyrinthe
+- Conclusion labyrinthe à vérifier
+- EntraÎnement DQN Livraison taille 6 -> 8
