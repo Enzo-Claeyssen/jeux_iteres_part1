@@ -115,4 +115,4 @@ Jour 5 :
 - Comparaison QLearning / DQN Livraison
 - Vérification conclusion labyrinthe
 - Nouvel environnement pour Livraison
-
+- Entraînement DQN pour nouveau Livraison 4
