@@ -108,3 +108,11 @@ Jour 4 :
 - Comparaison ancien labyrinthe et nouveau labyrinthe
 - Conclusion labyrinthe à vérifier
 - EntraÎnement DQN Livraison taille 6 -> 8
+
+
+
+Jour 5 :
+- Comparaison QLearning / DQN Livraison
+- Vérification conclusion labyrinthe
+- Nouvel environnement pour Livraison
+
