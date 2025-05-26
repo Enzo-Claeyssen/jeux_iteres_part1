@@ -116,3 +116,13 @@ Jour 5 :
 - Vérification conclusion labyrinthe
 - Nouvel environnement pour Livraison
 - Entraînement DQN pour nouveau Livraison 4
+
+
+
+Semaine 4 : 26/05 -> 01/06
+ 
+ 
+Jour 1 :
+ - Entraînement DQN pour nouveau livraison 6
+ - Mise à jour labyrinthe pour départ, arrivée et taille quelconque
+ - Affichage réseau DQN pour labyrinthe carte fixé
