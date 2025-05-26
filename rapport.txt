@@ -126,3 +126,5 @@ Jour 1 :
  - Entraînement DQN pour nouveau livraison 6
  - Mise à jour labyrinthe pour départ, arrivée et taille quelconque
  - Affichage réseau DQN pour labyrinthe carte fixé
+ - Début rapport Chapitre 1
+ 
