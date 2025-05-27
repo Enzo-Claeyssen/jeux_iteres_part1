@@ -131,4 +131,5 @@ Jour 1 :
 
 Jour 2 :
  - QLearning pour multi-discrete observation space
+ - 3ème environnement pour labyrinthe
  
