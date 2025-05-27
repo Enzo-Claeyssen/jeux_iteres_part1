@@ -128,3 +128,7 @@ Jour 1 :
  - Affichage réseau DQN pour labyrinthe carte fixé
  - Début rapport Chapitre 1
  
+
+Jour 2 :
+ - QLearning pour multi-discrete observation space
+ 

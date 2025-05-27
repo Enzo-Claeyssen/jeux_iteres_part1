@@ -2,16 +2,78 @@ import numpy as np
 from math import exp
 
 
+
+def create(keys, actions) :
+    n = len(keys)
+    if n == 0 :
+        return [0 for _ in range(actions)]
+    else :
+        return [create(keys[1:], actions) for _ in range(keys[0])]
+
+def access(table, keys) :
+    res = table
+    for i in range(len(keys)) :
+        res = res[keys[i]]
+    return res
+
+def modify(table, keys, value) :
+    if len(keys) == 1 :
+        table[keys[0]] = value
+    else :
+        modify(table[keys[0]], keys[1:], value)
+
+
+def get_best_action(table, state) :
+    bestAction = 0
+    toStudy = access(table, state)
+    bestReward = toStudy[0]
+    n_actions = len(toStudy)
+    
+    for i in range(n_actions) :
+        reward = toStudy[i]
+        if reward > bestReward :
+            bestReward = reward
+            bestAction = i
+    return bestAction
+
+
+def get_best_reward(table, state) :
+    bestAction = 0
+    toStudy = access(table, state)
+    bestReward = toStudy[0]
+    n_actions = len(toStudy)
+    
+    for i in range(n_actions) :
+        reward = toStudy[i]
+        if reward > bestReward :
+            bestReward = reward
+            bestAction = i
+    return bestReward
+
+
 def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
                      eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
                      timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100) :
-    n_states = env.observation_space.n
+    
+    multi_discrete = False
+    n_states = 0
+    try :
+        n_states = [env.observation_space.n]
+    except AttributeError :
+        n_states = env.observation_space.nvec
+        multi_discrete = True
+    
+    n = len(n_states)
     n_actions = env.action_space.n
-    Q = np.zeros((n_states, n_actions))
+    
+    
+    Q = create(n_states, n_actions)
     trainRewards = []
     prodRewards = []
     
     state, _ = env.reset()
+    if not multi_discrete :
+        state = [state]
     episode_reward = 0
     done = False
     
@@ -21,6 +83,8 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
                 prodRewards.append(test_q_learning(env, Q, render = False, maxTimesteps = maxTimestepsProd))   #Uses prod model to report rewards
             trainRewards.append(episode_reward)
             state, _ = env.reset()
+            if not multi_discrete :
+                state = [state]
             episode_reward = 0
             done = False
             
@@ -35,13 +99,17 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
         if np.random.rand() < epsilon :
             action = np.random.choice(range(n_actions))
         else :
-            action = np.argmax(Q[state])
+            action = get_best_action(Q, state)
             
         # On applique l'action choisie
         next_state, reward, done, _, _ = env.step(action)
+        if not multi_discrete :
+            next_state = [next_state]
             
         # Mise à jour de la table
-        Q[state, action] += alpha * (reward + gamma * np.max(Q[next_state]) - Q[state, action])
+        val = access(Q, state + [action])
+        val += alpha * (reward + gamma * get_best_reward(Q, next_state) - access(Q, state + [action]))
+        modify(Q, state + [action], val)
             
         state = next_state
         episode_reward += reward
@@ -52,12 +120,19 @@ def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
     preventInfinite = maxTimesteps
     done = False
     state, _ = env.reset()
+    multi_discrete = True
+    if type(state) == int :
+        multi_discrete = False
+        state = [state]
+    
     if render : env.render()
     total_reward = 0
     while not done and preventInfinite > 0 :
         preventInfinite -= 1
-        action = np.argmax(QTable[state])
+        action = get_best_action(QTable, state)
         state, reward, done, _, _ = env.step(action)
+        if not multi_discrete :
+            state = [state]
         if render : env.render()
         total_reward += reward
     return total_reward
