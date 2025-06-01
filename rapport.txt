@@ -133,3 +133,9 @@ Jour 2 :
  - QLearning pour multi-discrete observation space
  - 3ème environnement pour labyrinthe
  
+ 
+Jour 3 :
+ - Environnement pour Rome Alésia
+ - Entraînement DQN pour labyrinthe 3 taille 4 et 6
+ - Comparaison Labyrinthe 2 et 3
+ 
