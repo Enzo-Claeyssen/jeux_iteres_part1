@@ -39,22 +39,40 @@ def train_dqn(env, learning_rate = 0.01, gamma = 0.99, buffer_size = 500, batch_
     else :
         policy_kwargs = dict(activation_fn = th.nn.Sigmoid,
                              net_arch=net_arch)
-
-    model = DQN(
-        "MlpPolicy",
-        env,
-        verbose=0,
-        policy_kwargs = policy_kwargs,
-        learning_rate=learning_rate,
-        gamma = gamma,
-        buffer_size=buffer_size,
-        batch_size = batch_size,
-        train_freq=1,
-        target_update_interval=update_freq,
-        exploration_initial_eps = exploration_initial_eps,
-        exploration_fraction=exploration_fraction,
-        exploration_final_eps=exploration_final_eps
-    )
+    
+    model = None
+    try :
+        model = DQN(
+            "MultiInputPolicy",
+            env,
+            verbose=0,
+            policy_kwargs = policy_kwargs,
+            learning_rate=learning_rate,
+            gamma = gamma,
+            buffer_size=buffer_size,
+            batch_size = batch_size,
+            train_freq=1,
+            target_update_interval=update_freq,
+            exploration_initial_eps = exploration_initial_eps,
+            exploration_fraction=exploration_fraction,
+            exploration_final_eps=exploration_final_eps
+        )
+    except AttributeError :
+        model = DQN(
+            "MlpPolicy",
+            env,
+            verbose=0,
+            policy_kwargs = policy_kwargs,
+            learning_rate=learning_rate,
+            gamma = gamma,
+            buffer_size=buffer_size,
+            batch_size = batch_size,
+            train_freq=1,
+            target_update_interval=update_freq,
+            exploration_initial_eps = exploration_initial_eps,
+            exploration_fraction=exploration_fraction,
+            exploration_final_eps=exploration_final_eps
+        )
 
     model.learn(total_timesteps=timesteps, callback=logger)
 

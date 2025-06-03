@@ -138,4 +138,17 @@ Jour 3 :
  - Environnement pour Rome Alésia
  - Entraînement DQN pour labyrinthe 3 taille 4 et 6
  - Comparaison Labyrinthe 2 et 3
+
+
+
+Semaine 5 : 02/06 -> 06/06
+
+Jour 1 :
+ - Tentative nouveaux spaces pour l'architecture du réseau de DQN
+ - Découverte LaTeX pour rapport
+ - Entraînement infructueux pour DQN sur labyrinthe 3 taille 1000
  
+ 
+Jour 2 :
+ - Possibilité d'utiliser dict (pour Box spaces) avec le nouveau DQN.py
+ - Nouvelles références (Russel, Sutton, Watkins, DeepMind)
