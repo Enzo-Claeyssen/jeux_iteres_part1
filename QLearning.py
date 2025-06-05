@@ -152,3 +152,112 @@ def get_new_epsilon(start, end, fraction, progress_remaining) :
         return start + (1 - progress_remaining) * (end - start) / fraction
 
 
+
+class QLearningAgent() :
+    
+    def __init__(self, env) :
+        self.env = env
+        self.env.reset()
+        self.multi_discrete = False
+        n_states = 0
+        try :
+            n_states = [env.observation_space.n]
+        except AttributeError :
+            n_states = env.observation_space.nvec
+            self.multi_discrete = True
+        
+        n = len(n_states)
+        self.n_actions = env.action_space.n
+        
+        self.QTable = create(n_states, self.n_actions)
+    
+    def set_parameters(self, alpha = 0.1, decay_rate = 0, gamma = 0.9,
+                     eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
+                     scheduledTimesteps = 2000) :
+        self.alpha = alpha
+        self.decay_rate = decay_rate
+        self.gamma = gamma
+        self.eps_start = eps_start
+        self.eps_end = eps_end
+        self.eps_fraction = eps_fraction
+        self.scheduledTimesteps = scheduledTimesteps
+    
+    
+    def act(self, state) :
+        # Choix de l'action
+        if np.random.rand() < self.epsilon :
+            action = np.random.choice(range(self.n_actions))
+        else :
+            action = get_best_action(self.QTable, state)
+        return action
+    
+    
+    def train(self, timesteps = 2000, useProdForReward = False, maxTimestepsProd = 100) :
+        trainRewards = []
+        prodRewards = []
+        
+        state, _ = self.env.reset()
+        if not self.multi_discrete :
+            state = [state]
+        episode_reward = 0
+        done = False
+        
+        for i in range(timesteps) :	# Continue until reached amount of timesteps
+            if done :	# If episode ended
+                if useProdForReward :
+                    prodRewards.append(self.test(render = False, maxTimesteps = maxTimestepsProd))   #Uses prod model to report rewards
+                trainRewards.append(episode_reward)
+                state, _ = self.env.reset()
+                if not self.multi_discrete :
+                    state = [state]
+                episode_reward = 0
+                done = False
+                
+            
+            # Décroissance de epsilon
+            self.epsilon = get_new_epsilon(self.eps_start, self.eps_end, self.eps_fraction, (1-i/self.scheduledTimesteps))
+            
+            # Décroissance de alpha
+            self.alpha = self.alpha * exp(-self.decay_rate * i)
+            
+            # On obtient l'action qu'effectue l'agent
+            action = self.act(state)
+                
+            # On applique l'action choisie
+            next_state, reward, done, _, _ = self.env.step(action)
+            if not self.multi_discrete :
+                next_state = [next_state]
+                
+            # Mise à jour de la table
+            self.learn(state, action, reward, next_state)
+                
+            state = next_state
+            episode_reward += reward
+        return self.QTable, trainRewards, prodRewards
+    
+    
+    def learn(self, state, action, reward, next_state) :
+        val = access(self.QTable, state + [action])
+        val += self.alpha * (reward + self.gamma * get_best_reward(self.QTable, next_state) - access(self.QTable, state + [action]))
+        modify(self.QTable, state + [action], val)
+    
+    
+    def test(self, maxTimesteps = 20, render = True) :
+        preventInfinite = maxTimesteps
+        done = False
+        state, _ = self.env.reset()
+        if not self.multi_discrete :
+            state = [state]
+        
+        if render : self.env.render()
+        total_reward = 0
+        while not done and preventInfinite > 0 :
+            preventInfinite -= 1
+            action = get_best_action(self.QTable, state)
+            state, reward, done, _, _ = self.env.step(action)
+            if not self.multi_discrete :
+                state = [state]
+            if render : env.render()
+            total_reward += reward
+        if render : self.env.render()
+        return total_reward
