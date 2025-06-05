@@ -98,11 +98,9 @@ def test_dqn(env, model, maxTimesteps = 20, render = True):
             trajectory.append(obs)
         
         if render :
-            env.render("human")
+            env.env_method('render')
         
         if done:
             break
     
-    if render :
-        print("Trajectoire :", " → ".join(map(str, trajectory)))
     return total_reward
