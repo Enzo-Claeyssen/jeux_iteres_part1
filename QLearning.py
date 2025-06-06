@@ -151,13 +151,69 @@ def get_new_epsilon(start, end, fraction, progress_remaining) :
     else :
         return start + (1 - progress_remaining) * (end - start) / fraction
 
+"""
+
+class QLearningAgent() :
+    
+    def __init__(self) :
+        pass
+    
+    def initialize(self, observation_space, action_space) :
+        self.multi_discrete = False
+        n_states = 0
+        try :
+            n_states = [env.observation_space.n]
+        except AttributeError :
+            n_states = env.observation_space.nvec
+            self.multi_discrete = True
+            
+        self.n_actions = action_space.n
+        
+        self.QTable = create(n_states, self.n_actions)
+        self.nbDecay = 0
+    
+    
+    def set_parameters(self, alpha = 0.1, decay_rate = 0, gamma = 0.9,
+                     eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
+                     scheduledTimesteps = 2000) :
+        self.alpha = alpha
+        self.decay_rate = decay_rate
+        self.gamma = gamma
+        self.eps_start = eps_start
+        self.epsilon = eps_start
+        self.eps_end = eps_end
+        self.eps_fraction = eps_fraction
+        self.scheduledTimesteps = scheduledTimesteps
+    
+    
+    def act(self, state) :
+        # Choix de l'action
+        if np.random.rand() < self.epsilon :
+            action = np.random.choice(range(self.n_actions))
+        else :
+            action = get_best_action(self.QTable, state)
+        return action
+    
+    
+    def decay(self) :
+        self.epsilon = get_new_epsilon(self.eps_start, self.eps_end, self.eps_fraction, (1-self.nbDecay / self.scheduledTimesteps))
+        self.alpha = self.alpha * exp(-self.decay_rate * self.nbDecay)
+        self.nbDecay += 1
+    
+    
+    def learn(self, state, action, reward, next_state) :
+        self.decay()
+        val = access(self.QTable, state + [action])
+        val += self.alpha * (reward + self.gamma * get_best_reward(self.QTable, next_state) - access(self.QTable, state + [action]))
+        modify(self.QTable, state + [action], val)
+"""
+
 
 
 class QLearningAgent() :
     
     def __init__(self, env) :
         self.env = env
-        self.env.reset()
         self.multi_discrete = False
         n_states = 0
         try :
@@ -170,6 +226,8 @@ class QLearningAgent() :
         self.n_actions = env.action_space.n
         
         self.QTable = create(n_states, self.n_actions)
+        self.nbDecay = 0
+        
     
     def set_parameters(self, alpha = 0.1, decay_rate = 0, gamma = 0.9,
                      eps_start = 0.9, eps_end = 0.05, eps_fraction = 0.3,
@@ -178,6 +236,7 @@ class QLearningAgent() :
         self.decay_rate = decay_rate
         self.gamma = gamma
         self.eps_start = eps_start
+        self.epsilon = eps_start
         self.eps_end = eps_end
         self.eps_fraction = eps_fraction
         self.scheduledTimesteps = scheduledTimesteps
@@ -214,17 +273,11 @@ class QLearningAgent() :
                 done = False
                 
             
-            # Décroissance de epsilon
-            self.epsilon = get_new_epsilon(self.eps_start, self.eps_end, self.eps_fraction, (1-i/self.scheduledTimesteps))
-            
-            # Décroissance de alpha
-            self.alpha = self.alpha * exp(-self.decay_rate * i)
-            
             # On obtient l'action qu'effectue l'agent
             action = self.act(state)
                 
             # On applique l'action choisie
-            next_state, reward, done, _, _ = self.env.step(action)
+            next_state, reward, done, _, _ = self.env.step(action, learn = True)
             if not self.multi_discrete :
                 next_state = [next_state]
                 
@@ -236,7 +289,14 @@ class QLearningAgent() :
         return self.QTable, trainRewards, prodRewards
     
     
+    def decay(self) :
+        self.epsilon = get_new_epsilon(self.eps_start, self.eps_end, self.eps_fraction, (1-self.nbDecay / self.scheduledTimesteps))
+        self.alpha = self.alpha * exp(-self.decay_rate * self.nbDecay)
+        self.nbDecay += 1
+    
+    
     def learn(self, state, action, reward, next_state) :
+        self.decay()
         val = access(self.QTable, state + [action])
         val += self.alpha * (reward + self.gamma * get_best_reward(self.QTable, next_state) - access(self.QTable, state + [action]))
         modify(self.QTable, state + [action], val)
@@ -254,7 +314,7 @@ class QLearningAgent() :
         while not done and preventInfinite > 0 :
             preventInfinite -= 1
             action = get_best_action(self.QTable, state)
-            state, reward, done, _, _ = self.env.step(action)
+            state, reward, done, _, _ = self.env.step(action, learn = False)
             if not self.multi_discrete :
                 state = [state]
             if render : env.render()
