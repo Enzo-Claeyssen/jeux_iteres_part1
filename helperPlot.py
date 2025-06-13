@@ -265,7 +265,7 @@ def plot_ppo_performance_forAll3(savePath, env, timesteps, plotDim, predefined, 
     m = len(param2_poss)
     k = len(param3_poss)
     
-    fig, axes = plt.subplots(m*k, n, figsize=(80, 80))
+    fig, axes = plt.subplots(m*k, n, figsize=(40, 40))
     
     for param1, param2, param3, x, y, z in data :
         trainer = PPO_TrainingBuilder()
