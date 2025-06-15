@@ -187,16 +187,17 @@ def retrieve_rewards(path) :
         i = 0
         for row in file :
             i += int(row['num_training_step_calls_per_iteration'])
-            y.append(i)
-    
-            mean_reward = float(row['env_runners/episode_return_mean'])
-            res.append(mean_reward)
-            if maxi is None :
-                maxi = mean_reward
-    
-            if maxi < mean_reward :
-                maxi = mean_reward
-            maxi_rewards.append(maxi)
+            if 'env_runners/episode_return_mean' in row :	# On vérifie qu'au moins une récompense soit enregistrée.
+                y.append(i)
+        
+                mean_reward = float(row['env_runners/episode_return_mean'])
+                res.append(mean_reward)
+                if maxi is None :
+                    maxi = mean_reward
+        
+                if maxi < mean_reward :
+                    maxi = mean_reward
+                maxi_rewards.append(maxi)
     return res, maxi_rewards, y
 
 
