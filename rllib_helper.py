@@ -2,6 +2,7 @@ import numpy as np
 import torch as th
 import matplotlib.pyplot as plt
 import csv
+from ray.rllib.callbacks.callbacks import RLlibCallback
 
 def one_hot(config, state) :
     """
@@ -186,7 +187,7 @@ def retrieve_rewards(path) :
         maxi = None
         i = 0
         for row in file :
-            i += int(row['num_training_step_calls_per_iteration'])
+            i += int(row["env_runners/num_episodes"])
             if 'env_runners/episode_return_mean' in row :	# On vérifie qu'au moins une récompense soit enregistrée.
                 y.append(i)
         
@@ -201,7 +202,7 @@ def retrieve_rewards(path) :
     return res, maxi_rewards, y
 
 
-def comparison_plot_1(resultGrid, param1_id, param1_poss) :
+def comparison_plot_1(resultGrid, param1_id, param1_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
     """
     Affichage des résultats pour la comparaison après GridSearch sur 2 paramètres.
     """
@@ -227,12 +228,14 @@ def comparison_plot_1(resultGrid, param1_id, param1_poss) :
         axes[i].set_ylabel('Récompense')
         axes[i].set_title(f"Récompense par épisode pour {param1_id} = {val1}")
         axes[i].grid()
+        axes[i].set_xlim(xMin, xMax)
+        axes[i].set_ylim(yMin, yMax)
     plt.show()
 
 
 
 
-def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss) :
+def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
     """
     Affichage des résultats pour la comparaison après GridSearch sur 2 paramètres.
     """
@@ -260,10 +263,12 @@ def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss
         axes[j, i].set_ylabel('Récompense')
         axes[j, i].set_title(f"Récompense par épisode pour {param1_id} = {val1} et {param2_id} = {val2}")
         axes[j, i].grid()
+        axes[j, i].set_xlim(xMin, xMax)
+        axes[j, i].set_ylim(yMin, yMax)
     plt.show()
     
     
-def comparison_plot_3(resultGrid, param1_id, param1_poss, param2_id, param2_poss, param3_id, param3_poss) :
+def comparison_plot_3(resultGrid, param1_id, param1_poss, param2_id, param2_poss, param3_id, param3_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
     
     n = len(param1_poss)
     m = len(param2_poss)
@@ -292,4 +297,20 @@ def comparison_plot_3(resultGrid, param1_id, param1_poss, param2_id, param2_poss
         axes[j+k*m, i].set_ylabel('Récompense')
         axes[j+k*m, i].set_title(f"Récompense par épisode pour {param1_id} = {val1}, {param2_id} = {val2} et {param3_id} = {val3}")
         axes[j+k*m, i].grid()
+        axes[j+k*m, i].set_xlim(xMin, xMax)
+        axes[j+k*m, i].set_ylim(yMin, yMax)
     plt.show()
+
+
+class EvaluationCallback(RLlibCallback) :
+    
+    def __init__(self) :
+        self.current_reward = 0
+
+    def on_episode_step(self, episode, env_runner, metrics_logger, env, env_index, rl_module) :
+        self.current_reward += episode.get_rewards()[-1]
+    
+    def on_episode_end(self, episode, prev_episode_chunks, env_runner, metrics_logger, env, env_index, rl_module) :
+        metrics_logger.set_value('episodes_rewards', self.current_reward, reduce = None)
+        self.current_reward = 0
+        
