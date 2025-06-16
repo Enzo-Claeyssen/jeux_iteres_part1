@@ -202,7 +202,7 @@ def retrieve_rewards(path) :
     return res, maxi_rewards, y
 
 
-def comparison_plot_1(resultGrid, param1_id, param1_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
+def comparison_plot_1(resultGrid, param1_id, param1_poss, xMin = None, xMax = None, yMin = None, yMax = None) :
     """
     Affichage des résultats pour la comparaison après GridSearch sur 2 paramètres.
     """
@@ -235,7 +235,7 @@ def comparison_plot_1(resultGrid, param1_id, param1_poss, (xMin, xMax, yMin, yMa
 
 
 
-def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
+def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss, xMin = None, xMax = None, yMin = None, yMax = None) :
     """
     Affichage des résultats pour la comparaison après GridSearch sur 2 paramètres.
     """
@@ -268,7 +268,7 @@ def comparison_plot_2(resultGrid, param1_id, param1_poss, param2_id, param2_poss
     plt.show()
     
     
-def comparison_plot_3(resultGrid, param1_id, param1_poss, param2_id, param2_poss, param3_id, param3_poss, (xMin, xMax, yMin, yMax) = (None, None, None, None)) :
+def comparison_plot_3(resultGrid, param1_id, param1_poss, param2_id, param2_poss, param3_id, param3_poss, xMin = None, xMax = None, yMin = None, yMax = None) :
     
     n = len(param1_poss)
     m = len(param2_poss)
