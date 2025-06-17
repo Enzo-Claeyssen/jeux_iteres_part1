@@ -1,154 +1,30 @@
-Semaine 1 : 5/05 -> 11/05
+Oral :
 
-Jour 1 :
+1.
+Qu'est-ce que l'apprentissage par renforcement ?
+- L'environnement, les états 
+- L'agent, les observations et la récompense 
 
-- Prise de connaissance des sujets
-- Reprise du code fourni
-- Première comparaison Q-Learning / DQN selon taille du couloir
-- Tentative RLlib (ratée on reste sur StableBaselines3)
-- Compréhension environnement Gym
-- Création de l'environnement frozenLake basé sur Gym
-- Généralisation Q-Learning pour tout problème Gym
-
+ Quand utiliser l'apprentissage par renforcement ?
+ - Modélisation par procéssus de décision markovien
+ - Utilisation hors garantie théorique ?
 
 
-Jour 2 :
+2.
+Comment importer un environnement ?
+ - Gymnasium.make
 
-- Généralisation des méthodes test-q-learning et test-dqn en prévision de l'entraînement sur labyrinthe
-- Séparation des problèmes par fiche
-- Rédaction de base.ipynb pour une présentation sommaire
-- Changement de l'unité d'itération de QLearning. (On passe de Épisode à TimeSteps pour avoir la même unité que DQN)
-- Ajout de la possibilité d'obtenir les récompenses hors entraînement pour QLearning
-- Optimisation des paramètres du QLearning pour problème du couloir
-
-
-
-Jour 3 :
-
-- Ajout logging des récompenses hors entraînement pour QLearning et DQN
-- Retour sur optimisation du QLearning
-- Optimisation de DQN
-- Comparaison QLearning DQN par timesteps
-- Comparaison QLearning DQN par temps
+Comment créer son environnement ?
+ - Modèle de base
+   + gymnasium.spaces
+ - Couloir en exemple
 
 
-Jour 4 :
-
-- Ajout PPO par défaut sur couloir
-
-
-
-Jour 5 :
-
-- Helper pour plot QLearning
-- Optimisation QLearning pour labyrinthe
-- Helper pour plot DQN
+3.
+QLearning
+Utiliser les librairies
+Évaluer les résultats
 
 
-
-
-Semaine 2 : 12/05 -> 18/05
-
-
-Jour 1 :
- - Optimisation DQN pour labyrinthe taille 6 max
- - Comparaison DQN / QLearning
- 
- 
-Jour 2 :
- - Explication des environnements dans base.ipynb
- - Optimisation DQN labyrinthe taille 8 + nouvelle conclusion
- - Optimisation PPO sur labyrinthe taille 4
-
-
-Jour 3 :
- - Explication des algorithmes et de leurs paramètres
- - Explication Stable Baselines
- - Ajout paramètre, changer l'architecture du réseau de DQN
- - Retour sur QLearning Couloir (améliorer les explications et utiliser l'implémentation de helperPlot.py)
- 
- 
-Jour 4 :
- - Correction de quelques soucis liés à l'ajout du nouveau paramètre
- - Nouvelle optimisation de DQN pour couloir
- - Nouvelle comparaison DQN / QLearning pour couloir
- 
-
-Jour 5 :
- - Quelques corrections pour couloir.ipynb
- 
- 
- 
-
-Semaine 3 : 19/05 -> 25/05
-
-
-
-Jour 1 :
- - Passage vers gymnasium
- - Entraînement DQN pour labyrinthe 6
- 
- 
-Jour 2 :
-- Récupération QTable et poids + biais d'un réseau
-- Entraînement DQN labyrinthe 8
-- ReLU vs Sigmoid
-- Environnement pour livraison terminé
-
-
-
-Jour 3 :
-- Entraînement QLearning pour livraison tailles 4 -> 10
-- Explications pour environnement livraison
-- Correction entraînement DQN pour labyrinthe Tailles 4 -> 10
-
-
-Jour 4 :
-- Comparaison QLearning DQN pour labyrinthe
-- Comparaison ancien labyrinthe et nouveau labyrinthe
-- Conclusion labyrinthe à vérifier
-- EntraÎnement DQN Livraison taille 6 -> 8
-
-
-
-Jour 5 :
-- Comparaison QLearning / DQN Livraison
-- Vérification conclusion labyrinthe
-- Nouvel environnement pour Livraison
-- Entraînement DQN pour nouveau Livraison 4
-
-
-
-Semaine 4 : 26/05 -> 01/06
- 
- 
-Jour 1 :
- - Entraînement DQN pour nouveau livraison 6
- - Mise à jour labyrinthe pour départ, arrivée et taille quelconque
- - Affichage réseau DQN pour labyrinthe carte fixé
- - Début rapport Chapitre 1
- 
-
-Jour 2 :
- - QLearning pour multi-discrete observation space
- - 3ème environnement pour labyrinthe
- 
- 
-Jour 3 :
- - Environnement pour Rome Alésia
- - Entraînement DQN pour labyrinthe 3 taille 4 et 6
- - Comparaison Labyrinthe 2 et 3
-
-
-
-Semaine 5 : 02/06 -> 06/06
-
-Jour 1 :
- - Tentative nouveaux spaces pour l'architecture du réseau de DQN
- - Découverte LaTeX pour rapport
- - Entraînement infructueux pour DQN sur labyrinthe 3 taille 1000
- 
- 
-Jour 2 :
- - Possibilité d'utiliser dict (pour Box spaces) avec le nouveau DQN.py
- - Nouvelles références (Russel, Sutton, Watkins, DeepMind)
+4.
+Paramétrer 
