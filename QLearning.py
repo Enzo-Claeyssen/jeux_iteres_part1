@@ -135,7 +135,6 @@ def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
             state = [state]
         if render : env.render()
         total_reward += reward
-    if render : env.render()
     return total_reward
 
 
