@@ -187,7 +187,7 @@ def retrieve_rewards(path) :
         maxi = None
         i = 0
         for row in file :
-            i = int(row["env_runners/num_env_steps_sampled_lifetime"])
+            i += int(row["env_runners/num_episodes"])
             if 'env_runners/episode_return_mean' in row :	# On vérifie qu'au moins une récompense soit enregistrée.
                 y.append(i)
         
