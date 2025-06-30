@@ -58,7 +58,7 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
     multi_discrete = False
     n_states = 0
     try :
-        n_states = [env.observation_space.n]
+        n_states = np.array([env.observation_space.n])
     except AttributeError :
         n_states = env.observation_space.nvec
         multi_discrete = True
@@ -73,7 +73,7 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
     
     state, _ = env.reset()
     if not multi_discrete :
-        state = [state]
+        state = np.array([state])
     episode_reward = 0
     done = False
     
@@ -84,7 +84,7 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
             trainRewards.append(episode_reward)
             state, _ = env.reset()
             if not multi_discrete :
-                state = [state]
+                state = np.array([state])
             episode_reward = 0
             done = False
             
@@ -104,12 +104,12 @@ def train_q_learning(env, alpha = 0.1, decay_rate = 0, gamma = 0.9,
         # On applique l'action choisie
         next_state, reward, done, _, _ = env.step(action)
         if not multi_discrete :
-            next_state = [next_state]
+            next_state = np.array([next_state])
             
         # Mise à jour de la table
-        val = access(Q, state + [action])
-        val += alpha * (reward + gamma * get_best_reward(Q, next_state) - access(Q, state + [action]))
-        modify(Q, state + [action], val)
+        val = access(Q, np.append(state, action))
+        val += alpha * (reward + gamma * get_best_reward(Q, next_state) - val)
+        modify(Q, np.append(state, action), val)
             
         state = next_state
         episode_reward += reward
@@ -123,7 +123,7 @@ def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
     multi_discrete = True
     if type(state) == int :
         multi_discrete = False
-        state = [state]
+        state = np.array([state])
     
     if render : env.render()
     total_reward = 0
@@ -132,7 +132,7 @@ def test_q_learning(env, QTable, maxTimesteps = 20, render = True) :
         action = get_best_action(QTable, state)
         state, reward, done, _, _ = env.step(action)
         if not multi_discrete :
-            state = [state]
+            state = np.array([state])
         if render : env.render()
         total_reward += reward
     return total_reward
