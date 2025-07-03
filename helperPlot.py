@@ -283,3 +283,20 @@ def plot_ppo_performance_forAll3(savePath, env, timesteps, plotDim, predefined, 
         axes[y+z*m, x].set_ylim([plotDim[1], plotDim[2]])
     plt.savefig(savePath, bbox_inches='tight')
     plt.show()
+
+def mean_plot(results, mean_n) :
+    toPlot = []
+    ordonnees = []
+    somme = 0
+    k = 0
+    for i in range(len(results)) :
+        r = results[i]
+        k += 1
+        somme += r
+        
+        if k == mean_n :
+            k = 0
+            toPlot.append(somme/mean_n)
+            ordonnees.append(i)
+            somme = 0
+    return ordonnees, toPlot
